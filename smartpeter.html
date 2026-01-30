@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>LEA V3 Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/smartpeter/chatbotsm-v3.css" />
+  <style>
+    @font-face {
+      font-family: Verdana;
+      src: url("/smartpeter/4b8e54294ffbdb4ecb4461fb69fe2415.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: Verdana;
+      src: url("/smartpeter/1724538fc6851eb6154ebd2afe698521.woff2") format("woff2");
+      font-weight: 900;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: Verdana;
+      src: url("/smartpeter/7b92406001f9896d619169b573e946d1.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-image: url("/smartpeter/www.salzburgnetz.at_.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  </style>
+</head>
+
+<body class="chatbot--v3">
+  <script src="/smartpeter/webchat.js"></script>
+  <!-- <script src="https://webchat-trial.cognigy.ai/build/webchat3.js"></script> -->
+  <!-- <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script> -->
+  <script src="/smartpeter/webchatv3.js"></script>
+   <script defer>
+    const v3Handler = {
+      element: document.querySelector("button.button--primary-on-red.button-back-to-top.button-back-to-top--chatbot"),
+      initCallBack(webchat) {
+        if (this.element.dataset.webchatLoadByParameter) {
+          const query = window.location.search;
+          const params = new URLSearchParams(query);
+          if (params.get("openbot") === "1") {
+            webchat.store.dispatch({
+              type: "SWITCH_SESSION",
+              sessionId: "session-" + Date.now() * Math.random(),
+            });
+
+
+            const labelConf = params.has("label")
+              ? {
+                label: params.get("label"),
+              }
+              : undefined;
+            webchat.open()
+            webchat.startConversation(); //avoids clicking homescreen
+            webchat.sendMessage(
+              params.get("payload"),
+              {
+                url: window.location.href,
+              },
+              labelConf
+            );
+
+          }
+        }
+      }
+    }
+    console.log(window.webchatController?.version);
+    if (Number.isInteger(window.webchatController.nextEngagement)) {
+      webchatController.logger("[Engagement Message]: Exists");
+      if (window.webchatController.nextEngagement < Date.now()) {
+        webchatController.logger(
+          "[Engagement Message]: The Disabled Time is Over"
+        );
+        window.webchatController.init(window.webchatController.greeting, (webchat) => {
+          v3Handler.initCallBack(webchat);
+        });
+      } else {
+        webchatController.logger("[Engagement Message]: Remains Disabled");
+        window.webchatController.init(window.webchatController.greeting, (webchat) => {
+          v3Handler.initCallBack(webchat);
+        });
+      }
+    } else {
+      webchatController.logger(
+        "[Engagement Message]: Does not exist; So automatically show"
+      );
+      window.webchatController.init(window.webchatController.greeting, (webchat) => {
+        v3Handler.initCallBack(webchat);
+      });
+    }
+  </script>
+  <script src="/smartpeter/customization.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+Update package json version -DONE
+Update webchatv3.js file version number - DONE
+Copy less file - DONE
+copy webchat.js file - DONE
+copy webchatv3.js file - DONE
+copy wevchatv3.ts file - DONE
+make zip of deployment package and store to downloads folder - DONE

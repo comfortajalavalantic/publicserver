@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>LEA V3 Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/lea/chatbot-v3.css" />
+  <style>
+    @font-face {
+      font-family: Verdana;
+      src: url("/lea/4b8e54294ffbdb4ecb4461fb69fe2415.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: Verdana;
+      src: url("/lea/1724538fc6851eb6154ebd2afe698521.woff2") format("woff2");
+      font-weight: 900;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: Verdana;
+      src: url("/lea/7b92406001f9896d619169b573e946d1.woff2") format("woff2");
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-image: url("/lea/www.salzburg-ag.at_.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .button-back-to-top--chatbot {
+      visibility: hidden;
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body class="chatbot--v3">
+  <h1>Headline für Barrierfreitheit-Test ( Plugin )</h1>
+  <button type="button" class="button button--primary-on-red button-back-to-top button-back-to-top--chatbot"
+    data-module="back-to-top webchatv3 "
+    data-webchat-endpoint="https://endpoint-app.cognigy.ds-prod.salzburg-ag.at/94d4eeaf672318ba7facf2de4bb4033653d2294cb8bc0e5cd7da6d31ff6a42b1"
+    data-webchat-engagement-message="Hallo ich bin LEA, kann ich dir helfen?" data-webchat-load-by-parameter="true"
+    data-action="go-top" aria-label="Zurück nach oben">
+    <span class="icon icon--arrow-up icon--size-16">
+
+      <!--?xml version="1.0" encoding="UTF-8" ?-->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: currentColor;">
+        <g>
+          <path
+            d="M20,17c-.26,0-.51-.1-.71-.29l-7.29-7.29-7.29,7.29c-.39,.39-1.02,.39-1.41,0s-.39-1.02,0-1.41l7.65-7.65c.58-.58,1.54-.58,2.12,0l7.65,7.65c.39,.39,.39,1.02,0,1.41-.2,.2-.45,.29-.71,.29Z">
+          </path>
+        </g>
+      </svg>
+
+
+    </span>
+  </button>
+  <script src="/lea/webchat.js"></script>
+  <!-- <script src="https://webchat-trial.cognigy.ai/build/webchat3.js"></script> -->
+  <!-- <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script> -->
+  <script src="/lea/webchatv3.js"></script>
+  <script defer>
+    const v3Handler = {
+      element: document.querySelector("button.button--primary-on-red.button-back-to-top.button-back-to-top--chatbot"),
+      initCallBack(webchat) {
+        if (this.element.dataset.webchatLoadByParameter) {
+          const query = window.location.search;
+          const params = new URLSearchParams(query);
+          if (params.get("openbot") === "1") {
+            webchat.store.dispatch({
+              type: "SWITCH_SESSION",
+              sessionId: "session-" + Date.now() * Math.random(),
+            });
+
+
+            const labelConf = params.has("label")
+              ? {
+                label: params.get("label"),
+              }
+              : undefined;
+            webchat.open()
+            webchat.startConversation(); //avoids clicking homescreen
+            webchat.sendMessage(
+              params.get("payload"),
+              {
+                url: window.location.href,
+              },
+              labelConf
+            );
+
+          }
+        }
+      }
+    }
+    console.log(window.webchatController?.version);
+    if (Number.isInteger(window.webchatController.nextEngagement)) {
+      webchatController.logger("[Engagement Message]: Exists");
+      if (window.webchatController.nextEngagement < Date.now()) {
+        webchatController.logger(
+          "[Engagement Message]: The Disabled Time is Over"
+        );
+        window.webchatController.init(window.webchatController.greeting, (webchat) => {
+          v3Handler.initCallBack(webchat);
+        });
+      } else {
+        webchatController.logger("[Engagement Message]: Remains Disabled");
+        window.webchatController.init(window.webchatController.greeting, (webchat) => {
+          v3Handler.initCallBack(webchat);
+        });
+      }
+    } else {
+      webchatController.logger(
+        "[Engagement Message]: Does not exist; So automatically show"
+      );
+      window.webchatController.init(window.webchatController.greeting, (webchat) => {
+        v3Handler.initCallBack(webchat);
+      });
+    }
+  </script>
+  <script src="/lea/customization.js"></script>
+</body>
+
+</html>
