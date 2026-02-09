@@ -1,4 +1,4 @@
-const webchatController = {version:96}; //only relevant for the regex matching :D
+const webchatController = {version:97}; //only relevant for the regex matching :D
 // webchatController.cognigyEndpoint =
 //   "https://endpoint-app.cognigy.ds-prod.salzburg-ag.at/02e49902da2fbd856a37353a5904ed97b195f4200deff380bf7bf16f5c181823";
 webchatController.cognigyEndpoint =

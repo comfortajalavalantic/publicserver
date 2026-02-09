@@ -41,7 +41,6 @@
 }
 .chatbot--v3 [data-cognigy-webchat-root] * {
   font-family: Verdana, sans-serif !important;
-  font-weight: normal;
 }
 @media screen and (min-width: 576px) {
   .chatbot--v3 #webchatWindow {
@@ -460,4 +459,13 @@
 .chatbot--v3 #usercentrics-root {
   position: relative;
   z-index: 1;
+}
+/******************v3.36.0 UI Fixes*********/
+.webchat-root[data-cognigy-webchat-root] label.webchat-input-message-label {
+  color: #666666;
+}
+.webchat-root[data-cognigy-webchat-root] button.webchat-quick-reply-template-button span,
+.webchat-root[data-cognigy-webchat-root] a.webchat-carousel-template-button.phone-number-or-url-anchor span,
+.webchat-root[data-cognigy-webchat-root] a.webchat-buttons-template-button.phone-number-or-url-anchor span {
+  font-weight: unset;
 }

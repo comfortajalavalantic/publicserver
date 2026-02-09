@@ -3,7 +3,6 @@
   --cc-text-link-hover: black;
   [data-cognigy-webchat-root] * {
     font-family: Verdana, sans-serif !important;
-    font-weight: normal;
   }
 
   @media screen and (min-width: 576px) {
@@ -34,7 +33,8 @@
     right: 80px;
     bottom: 70px;
     position: fixed;
-    box-shadow: rgba(151, 124, 156, 0.2) 0px 5px 18px 0px,
+    box-shadow:
+      rgba(151, 124, 156, 0.2) 0px 5px 18px 0px,
       rgba(203, 195, 212, 0.2) 0px 5px 32px 0px,
       rgba(216, 212, 221, 0.1) 0px 8px 58px 0px;
     color: rgba(0, 0, 0, 0.95);
@@ -52,7 +52,9 @@
     height: 20px;
     border-radius: 40px;
     background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.001);
+    box-shadow:
+      0 2px 5px rgba(0, 0, 0, 0.1),
+      0 6px 6px rgba(0, 0, 0, 0.001);
   }
 
   [data-cognigy-webchat-root]
@@ -73,7 +75,7 @@
     .webchat-teaser-message-bubble
     > div
     h6 {
-     // display: none;
+    // display: none;
     visibility: hidden;
     height: 0;
   }
@@ -361,7 +363,8 @@
     --grey-2: #efefef;
     --grey-3: #b5b5b5;
     --accent: red;
-    --shadow: rgba(151, 124, 156, 0.3) 0 5px 9px 0,
+    --shadow:
+      rgba(151, 124, 156, 0.3) 0 5px 9px 0,
       rgba(203, 195, 212, 0.3) 0 5px 16px 0,
       rgba(216, 212, 221, 0.3) 0 8px 20px 0;
   }
@@ -385,7 +388,9 @@
     .webchat-unread-message-preview.close-animtaion {
     visibility: hidden;
     opacity: 0;
-    transition: visibility 0s 0.2s, opacity 0.2s linear;
+    transition:
+      visibility 0s 0.2s,
+      opacity 0.2s linear;
   }
 
   [data-cognigy-webchat-root]
@@ -655,4 +660,20 @@
     position: relative;
     z-index: 1;
   }
+}
+
+/******************v3.36.0 UI Fixes*********/
+.webchat-root[data-cognigy-webchat-root] label.webchat-input-message-label {
+  color: rgb(102, 102, 102);
+}
+.webchat-root[data-cognigy-webchat-root]
+  button.webchat-quick-reply-template-button
+  span,
+.webchat-root[data-cognigy-webchat-root]
+  a.webchat-carousel-template-button.phone-number-or-url-anchor
+  span,
+.webchat-root[data-cognigy-webchat-root]
+  a.webchat-buttons-template-button.phone-number-or-url-anchor
+  span {
+  font-weight: unset;
 }
