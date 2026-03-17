@@ -18,14 +18,14 @@
   #webchatHeaderTitle {
     font-size: 16px;
   }
-  button.webchat-scroll-to-bottom-button.cognigy-webchat-dxxnog {
+  button.webchat-scroll-to-bottom-button[class*="cognigy-webchat-"] {
     display: none;
   }
 
   /**************++++1. Engagement Message​*****/
 
   [data-cognigy-webchat-root]
-    .webchat-teaser-message-bubble.cognigy-webchat-ghv6pu {
+    .webchat-teaser-message-bubble[class*="cognigy-webchat-"] {
     max-width: 200px;
     padding: 10px 15px;
     gap: 0px;
@@ -96,13 +96,13 @@
     } */
   /*************2. Homescreen​**************/
   [data-cognigy-webchat-root]
-    .cognigy-webchat-1idhyxe
+    [class*="cognigy-webchat-"]
     .webchat-homescreen-header-logo {
     display: none;
   }
 
   [data-cognigy-webchat-root]
-    .webchat-homescreen-header.cognigy-webchat-1idhyxe {
+    .webchat-homescreen-header[class*="cognigy-webchat-"] {
     justify-content: flex-end;
   }
 
@@ -174,16 +174,16 @@
 
   [data-cognigy-webchat-root]
     a.webchat-buttons-template-button.phone-number-or-url-anchor
-    span._cta-semibold_1tlzl_81,
+    span[class*="_cta-semibold"],
   [data-cognigy-webchat-root]
     button.webchat-buttons-template-button
-    span._cta-semibold_1tlzl_81,
+    span[class*="_cta-semibold"],
   [data-cognigy-webchat-root]
     button.webchat-quick-reply-template-button
-    span._cta-semibold_1tlzl_81,
+    span[class*="_cta-semibold"],
   [data-cognigy-webchat-root]
     a[class*="_primaryButton_"].webchat-carousel-template-button
-    span._cta-semibold_1tlzl_81 {
+    span[class*="_cta-semibold"] {
     font-size: 14px;
     font-weight: 400;
   }
@@ -573,9 +573,9 @@
     --webchat-background-user-message: #cce5e8;
   }
 
-  .webchat-header-bar.cognigy-webchat-6h305p.slide-in-enter-done {
-    background-color: var(--webchat-background-user-message);
-  }
+  // .webchat-header-bar.cognigy-webchat-6h305p.slide-in-enter-done {
+  //   background-color: var(--webchat-background-user-message);
+  // }
 
   h2[id*="webchatCarouselTemplateTitle"] {
     text-transform: none !important;
@@ -591,7 +591,7 @@
     font-size: 15px;
   }
 
-  [data-cognigy-webchat-root] .cognigy-webchat-1ctc2vc,
+  [data-cognigy-webchat-root] [class*="cognigy-webchat-"],
   #webchatWindow {
     font-family: Verdana, sans-serif !important;
   }
@@ -616,11 +616,11 @@
   }
 
   /***Anpassungen für Kompatibilität in der Testumgebung V2*****/
-  .webchat-list-template-element-content._listItemContent_1i8g2_95 h2 {
+  .webchat-list-template-element-content[class*="_listItemContent_"] h2 {
     font-size: 14px;
   }
 
-  .webchat-list-template-header-content._headerContent_1i8g2_37 h2 {
+  .webchat-list-template-header-content[class*="_headerContent_"] h2 {
     font-size: 16px;
   }
 
@@ -630,31 +630,31 @@
     line-height: 22.4px !important;
   }
 
-  [data-cognigy-webchat-root] .cognigy-webchat-x6ul58 {
-    width: 70%;
-  }
+  // [data-cognigy-webchat-root] .cognigy-webchat-x6ul58 {
+  //   width: 70%;
+  // }
 
   #webchatWindow > div footer button[type="button"] {
     font-size: 13px;
   }
 }
-.webchat-prev-conversations-content {
-  .cognigy-webchat-x6ul58 > div {
-    max-width: 200px !important;
-  }
-}
+// .webchat-prev-conversations-content {
+//   .cognigy-webchat-x6ul58 > div {
+//     max-width: 200px !important;
+//   }
+// }
 
 .chatbot--v3 {
-  [data-cognigy-webchat-root]
-    .webchat-teaser-message-bubble.cognigy-webchat-ghv6pu {
-    // @media (min-width: @screen-sm-min) {
-    //   right: 80px;
-    // }
+  // [data-cognigy-webchat-root]
+  //   .webchat-teaser-message-bubble.cognigy-webchat-ghv6pu {
+  //   // @media (min-width: @screen-sm-min) {
+  //   //   right: 80px;
+  //   // }
 
-    // @media (min-width: @screen-tablet-min) {
-    //   right: 60px;
-    // }
-  }
+  //   // @media (min-width: @screen-tablet-min) {
+  //   //   right: 60px;
+  //   // }
+  // }
 
   #usercentrics-root {
     position: relative;

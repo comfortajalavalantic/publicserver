@@ -55,10 +55,10 @@
 .chatbot--v3 #webchatHeaderTitle {
   font-size: 16px;
 }
-.chatbot--v3 button.webchat-scroll-to-bottom-button.cognigy-webchat-dxxnog {
+.chatbot--v3 button.webchat-scroll-to-bottom-button[class*="cognigy-webchat-"] {
   display: none;
 }
-.chatbot--v3 [data-cognigy-webchat-root] .webchat-teaser-message-bubble.cognigy-webchat-ghv6pu {
+.chatbot--v3 [data-cognigy-webchat-root] .webchat-teaser-message-bubble[class*="cognigy-webchat-"] {
   max-width: 200px;
   padding: 10px 15px;
   gap: 0px;
@@ -100,10 +100,10 @@
     display: unset;
   }
 }
-.chatbot--v3 [data-cognigy-webchat-root] .cognigy-webchat-1idhyxe .webchat-homescreen-header-logo {
+.chatbot--v3 [data-cognigy-webchat-root] [class*="cognigy-webchat-"] .webchat-homescreen-header-logo {
   display: none;
 }
-.chatbot--v3 [data-cognigy-webchat-root] .webchat-homescreen-header.cognigy-webchat-1idhyxe {
+.chatbot--v3 [data-cognigy-webchat-root] .webchat-homescreen-header[class*="cognigy-webchat-"] {
   justify-content: flex-end;
 }
 .chatbot--v3 .webchat-homescreen-title {
@@ -145,10 +145,10 @@
   border: 0.5px solid;
   outline: #e90000;
 }
-.chatbot--v3 [data-cognigy-webchat-root] a.webchat-buttons-template-button.phone-number-or-url-anchor span._cta-semibold_1tlzl_81,
-.chatbot--v3 [data-cognigy-webchat-root] button.webchat-buttons-template-button span._cta-semibold_1tlzl_81,
-.chatbot--v3 [data-cognigy-webchat-root] button.webchat-quick-reply-template-button span._cta-semibold_1tlzl_81,
-.chatbot--v3 [data-cognigy-webchat-root] a[class*="_primaryButton_"].webchat-carousel-template-button span._cta-semibold_1tlzl_81 {
+.chatbot--v3 [data-cognigy-webchat-root] a.webchat-buttons-template-button.phone-number-or-url-anchor span[class*="_cta-semibold"],
+.chatbot--v3 [data-cognigy-webchat-root] button.webchat-buttons-template-button span[class*="_cta-semibold"],
+.chatbot--v3 [data-cognigy-webchat-root] button.webchat-quick-reply-template-button span[class*="_cta-semibold"],
+.chatbot--v3 [data-cognigy-webchat-root] a[class*="_primaryButton_"].webchat-carousel-template-button span[class*="_cta-semibold"] {
   font-size: 14px;
   font-weight: 400;
 }
@@ -403,9 +403,6 @@
 .chatbot--v3 .webchat-header-bar {
   --webchat-background-user-message: #cce5e8;
 }
-.chatbot--v3 .webchat-header-bar.cognigy-webchat-6h305p.slide-in-enter-done {
-  background-color: var(--webchat-background-user-message);
-}
 .chatbot--v3 h2[id*="webchatCarouselTemplateTitle"] {
   text-transform: none !important;
 }
@@ -417,7 +414,7 @@
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 15px;
 }
-.chatbot--v3 [data-cognigy-webchat-root] .cognigy-webchat-1ctc2vc,
+.chatbot--v3 [data-cognigy-webchat-root] [class*="cognigy-webchat-"],
 .chatbot--v3 #webchatWindow {
   font-family: Verdana, sans-serif !important;
 }
@@ -436,10 +433,10 @@
   width: 0px;
   height: 0px;
 }
-.chatbot--v3 .webchat-list-template-element-content._listItemContent_1i8g2_95 h2 {
+.chatbot--v3 .webchat-list-template-element-content[class*="_listItemContent_"] h2 {
   font-size: 14px;
 }
-.chatbot--v3 .webchat-list-template-header-content._headerContent_1i8g2_37 h2 {
+.chatbot--v3 .webchat-list-template-header-content[class*="_headerContent_"] h2 {
   font-size: 16px;
 }
 .chatbot--v3 .webchat-root h2 {
@@ -447,14 +444,8 @@
   font-size: 14px !important;
   line-height: 22.4px !important;
 }
-.chatbot--v3 [data-cognigy-webchat-root] .cognigy-webchat-x6ul58 {
-  width: 70%;
-}
 .chatbot--v3 #webchatWindow > div footer button[type="button"] {
   font-size: 13px;
-}
-.webchat-prev-conversations-content .cognigy-webchat-x6ul58 > div {
-  max-width: 200px !important;
 }
 .chatbot--v3 #usercentrics-root {
   position: relative;
