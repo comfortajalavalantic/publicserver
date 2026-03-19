@@ -591,3 +591,6 @@ ul.webchat-quick-reply-template-replies-container {
   width: 303px;
   height: 44px;
 }
+[data-cognigy-webchat-root] .webchat-prev-conversations-item > div:nth-child(2) {
+  width: 70%;
+}
