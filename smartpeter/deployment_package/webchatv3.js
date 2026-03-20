@@ -1,4 +1,4 @@
-const webchatController = {version:96}; //only relevant for the regex matching :D
+const webchatController = {version:108}; //only relevant for the regex matching :D
 webchatController.cognigyEndpoint =
   "https://endpoint-app.cognigy.ds-prod.salzburg-ag.at/a94b6087b534cb0d6f3d73d8ef17c501e2c58bee60c8728a8ef18c8a3a14556f";
 webchatController.greeting = "Hallo ich bin Smart Peter, kann ich dir helfen?"; // Automatically displayed engagement message//default cognigy expiration is 30 days --> https://github.com/Cognigy/Webchat/blob/82a51e6af8e477f8a2941cf0c751ae5dc9fb9f6d/src/webchat-ui/components/presentational/previous-conversations/helpers.ts
@@ -15,7 +15,7 @@ webchatController.waitForElementToExist = (
   selectorQuery,
   payload,
   callbacks,
-  webchat
+  webchat,
 ) => {
   try {
     let el = document.querySelector(selectorQuery);
@@ -25,7 +25,7 @@ webchatController.waitForElementToExist = (
           selectorQuery,
           payload,
           callbacks,
-          webchat
+          webchat,
         );
       });
     } else {
@@ -85,7 +85,7 @@ webchatController.loadScripts = (urls, callback) => {
 webchatController.monitorDisabledActionElements = (
   _,
   chatContainer,
-  webchat
+  webchat,
 ) => {
   // Function to enable a button
   function enableButton(button) {
@@ -101,7 +101,7 @@ webchatController.monitorDisabledActionElements = (
             message.data?._cognigy?._default?._quickReplies.quickReplies;
           if (quickReplies) {
             const matching_quick_reply = quickReplies.find(
-              (quickReply) => quickReply.title === label
+              (quickReply) => quickReply.title === label,
             );
             if (matching_quick_reply) {
               button.dataset.payload = matching_quick_reply.payload;
@@ -113,7 +113,7 @@ webchatController.monitorDisabledActionElements = (
     }
     button.addEventListener("click", (ev) => {
       const chatMessagesContainer = document.getElementById(
-        "webchatChatHistoryWrapperLiveLogPanel"
+        "webchatChatHistoryWrapperLiveLogPanel",
       );
 
       if (!chatMessagesContainer) return;
@@ -155,10 +155,10 @@ webchatController.monitorDisabledActionElements = (
       }
     });
     const prevConversationSendButton = document.querySelector(
-      "button.webchat-prev-conversations-send-button"
+      "button.webchat-prev-conversations-send-button",
     );
     const chatWithLeaButton = document.querySelector(
-      "button.webchat-homescreen-send-button"
+      "button.webchat-homescreen-send-button",
     );
     /***
      * if the button exists, replace the click action
@@ -181,7 +181,7 @@ webchatController.monitorDisabledActionElements = (
         const handler = webchatController.openChat(
           buttonElement,
           webchat,
-          stopProp
+          stopProp,
         );
         webchatController.buttonHandlers[index] = handler;
       } else {
@@ -234,7 +234,7 @@ webchatController.handleInteractivity = (webchat) => {
     if (webchat.client?.socketOptions) {
       const { sessionId, userId } = webchat.client?.socketOptions;
       for (const key of webchatController.getStorageKeysIncludes(
-        "admin-webchat"
+        "webchat-client",
       )) {
         if (key.includes(sessionId) && key.includes(userId)) {
           // check validity
@@ -257,22 +257,22 @@ webchatController.handleInteractivity = (webchat) => {
             let hidden_elements = [];
             hidden_elements = [
               ...document.querySelectorAll(
-                ".webchat-root[data-cognigy-webchat-root] .webchat-quick-reply-template-root"
+                ".webchat-root[data-cognigy-webchat-root] .webchat-quick-reply-template-root",
               ),
               ...document.querySelectorAll(
-                ".webchat-root[data-cognigy-webchat-root] .webchat-quick-reply-template-replies-container"
+                ".webchat-root[data-cognigy-webchat-root] .webchat-quick-reply-template-replies-container",
               ),
               ...document.querySelectorAll(
-                ".webchat-root[data-cognigy-webchat-root] .webchat-buttons-template-root"
+                ".webchat-root[data-cognigy-webchat-root] .webchat-buttons-template-root",
               ),
               ...document.querySelectorAll(
-                ".webchat-root[data-cognigy-webchat-root] button.MuiButtonBase-root.MuiButton-root.MuiButton-outlined"
+                ".webchat-root[data-cognigy-webchat-root] button.MuiButtonBase-root.MuiButton-root.MuiButton-outlined",
               ),
               ...document.querySelectorAll(
-                ".webchat-root[data-cognigy-webchat-root] .webchat-buttons-template-root"
+                ".webchat-root[data-cognigy-webchat-root] .webchat-buttons-template-root",
               ),
               ...document.querySelectorAll(
-                ".webchat-root[data-cognigy-webchat-root] .webchat-carousel-template-content [data-testid='action-buttons']"
+                ".webchat-root[data-cognigy-webchat-root] .webchat-carousel-template-content [data-testid='action-buttons']",
               ),
             ];
 
@@ -303,7 +303,7 @@ webchatController.getMostRecentSession = () => {
   /****** Loop through all stored conversations */
   let validAdminChat = undefined;
   let validAdminSessionId = undefined;
-  const prefix = "admin-webchat";
+  const prefix = "webchat-client";
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     if (key.includes(prefix)) {
@@ -344,6 +344,8 @@ webchatController.getMostRecentSession = () => {
 webchatController.setChatSession = () => {
   const { validAdminChat, validAdminSessionId } =
     webchatController.getMostRecentSession();
+    webchatController.logger("Below is the valid admin session id: ");
+    webchatController.logger(validAdminSessionId)
   if (!validAdminSessionId) {
     webchatController.webchatSession = {
       messages: [],
@@ -390,12 +392,12 @@ webchatController.openChat = (element, webchat, stopPropagation) => {
     const userId = localStorage.getItem("userId");
     const session_is_valid = webchatController.getSessionValidity(
       sessionId,
-      userId
+      userId,
     );
 
     if (session_is_valid) {
       webchatController.logger(
-        `Switched Session is not expired --> ${sessionId}`
+        `Switched Session is not expired --> ${sessionId}`,
       );
       // if session is valid, do not change current session id
       if (stopPropagation) {
@@ -420,7 +422,7 @@ webchatController.openChat = (element, webchat, stopPropagation) => {
         // console.log(webchat.switchSession);
 
         webchatController.logger(
-          `Most Recent and valid Session : ${validAdminSessionId}`
+          `Most Recent and valid Session : ${validAdminSessionId}`,
         );
 
         if (validAdminSessionId) {
@@ -428,7 +430,7 @@ webchatController.openChat = (element, webchat, stopPropagation) => {
             event.stopPropagation();
           }
           webchatController.logger(
-            `Switching to exisiting valid session. ${validAdminSessionId}`
+            `Switching to exisiting valid session. ${validAdminSessionId}`,
           );
           webchat.store.dispatch({
             type: "SWITCH_SESSION",
@@ -458,7 +460,7 @@ webchatController.openChat = (element, webchat, stopPropagation) => {
 
 webchatController.init = (
   engagementMessageText = "",
-  initCallback = (webchat) => {}
+  initCallback = (webchat) => {},
 ) => {
   webchatController.logger(`[Engagement Message]: ${engagementMessageText}`);
   webchatController.fetchConfig(
@@ -470,7 +472,7 @@ webchatController.init = (
 
       if (settings.pluginUrls) {
         webchatController.pluginUrls = webchatController.pluginUrls.concat(
-          settings.pluginUrls
+          settings.pluginUrls,
         );
       }
 
@@ -479,7 +481,7 @@ webchatController.init = (
         initWebchat(
           webchatController.cognigyEndpoint,
           {
-            channel: "admin-webchat",
+ 
             sessionId: webchatController.webchatSession?.sessionId,
             settings: {
               teaserMessage: {
@@ -505,14 +507,14 @@ webchatController.init = (
             // initialize the local storage current session id
             localStorage.setItem(
               "BOT_WEBCHAT_CURRENT_SESSIONID",
-              webchatController.webchatSession?.sessionId
+              webchatController.webchatSession?.sessionId,
             );
             if (webchat) {
               webchatController.waitForElementToExist(
                 ".webchat-root",
                 settings,
                 [webchatController.monitorDisabledActionElements],
-                webchat
+                webchat,
               );
 
               initCallback(webchat);
@@ -530,7 +532,7 @@ webchatController.init = (
                 // update current session id
                 localStorage.setItem(
                   "BOT_WEBCHAT_CURRENT_SESSIONID",
-                  event.payload
+                  event.payload,
                 );
               }
               if (event.type === "webchat/incoming-message") {
@@ -538,7 +540,7 @@ webchatController.init = (
                   "nextWebchatEngagement",
                   "" +
                     (Date.now() +
-                      webchatController.engagementMessageDisabledTime)
+                      webchatController.engagementMessageDisabledTime),
                 );
                 webchatController.waitForElementToExist(
                   "#webchatChatHistory .webchat-typing-indicator:not([class*='_incoming_'])",
@@ -546,12 +548,12 @@ webchatController.init = (
                   [
                     (_, el) => {
                       const webchatChatHistory = document.getElementById(
-                        "webchatChatHistoryWrapperLiveLogPanel"
+                        "webchatChatHistoryWrapperLiveLogPanel",
                       );
                       timeout = undefined;
                       if (webchatChatHistory) {
                         const elements = webchatChatHistory.querySelectorAll(
-                          "div > article:has(header)"
+                          "div > article:has(header)",
                         );
                         if (elements.length > 0) {
                           const lastElementWithHeader =
@@ -580,7 +582,7 @@ webchatController.init = (
                       }
                     },
                   ],
-                  webchat
+                  webchat,
                 );
               } else if (event.type === "webchat/outgoing-message") {
                 // Add URL to the payload
@@ -593,19 +595,34 @@ webchatController.init = (
                 if (event.payload?.data?.accepted_gdpr) {
                   localStorage.setItem("webchat_v3_accepted_gdpr", "true");
                 }
+                setTimeout(() => {
+                  const webchatChatHistory = document.getElementById(
+                    "webchatChatHistoryWrapperLiveLogPanel",
+                  );
+                  const elements = webchatChatHistory.querySelectorAll(
+                    "div > article.webchat-message-row.user",
+                  );
+                  if (elements.length > 0) {
+                    const lastEl = elements[elements.length - 1];
+                    webchatChatHistory.parentElement.scrollTo({
+                      top: lastEl.offsetTop,
+                      behavior: "instant",
+                    });
+                  }
+                }, 1000);
               } else if (event.type === "webchat/close") {
               }
             });
-          }
+          },
         );
       });
-    }
+    },
   );
 };
 
 webchatController.setChatSession();
 webchatController.nextEngagement = parseInt(
-  localStorage.getItem("nextWebchatEngagement")
+  localStorage.getItem("nextWebchatEngagement"),
 );
 
 window.webchatController = webchatController;

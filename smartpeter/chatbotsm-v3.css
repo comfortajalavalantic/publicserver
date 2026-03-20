@@ -475,3 +475,146 @@
   position: relative;
   z-index: 1;
 }
+/******************v3.36.0 UI Fixes*********/
+.webchat-root[data-cognigy-webchat-root] label.webchat-input-message-label {
+  color: #666666;
+}
+.webchat-root[data-cognigy-webchat-root] button.webchat-quick-reply-template-button span,
+.webchat-root[data-cognigy-webchat-root] a.webchat-carousel-template-button.phone-number-or-url-anchor span,
+.webchat-root[data-cognigy-webchat-root] a.webchat-buttons-template-button.phone-number-or-url-anchor span,
+button.webchat-homescreen-button span,
+button.webchat-buttons-template-button span {
+  font-weight: unset;
+}
+ul.webchat-quick-reply-template-replies-container {
+  max-width: 100% !important;
+}
+/****************************** ADD FIXED PX FONT-SIZES/WIDTH/HEIGHT/LINEHEIGHT DUE TO COGNIGY'S PX->REM BREAKING CHANGE  ***/
+[data-cognigy-webchat-root] [class*="_body-regular"] {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19.6px;
+}
+[data-cognigy-webchat-root] [class*="_buttons"].webchat-homescreen-button-container {
+  flex-direction: column;
+}
+[data-cognigy-webchat-root] .webchat-homescreen-actions button {
+  min-width: 40px;
+  min-height: 40px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  display: flex;
+  width: 303px;
+  height: 44px;
+  padding: 11px 0px;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-shrink: 0;
+  text-transform: unset;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 160%;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.1s ease-out;
+  margin-bottom: 24px;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+}
+[data-cognigy-webchat-root] a#cognigyHomeScreenBranding > span,
+[data-cognigy-webchat-root] a#cognigyBrandingLink > span {
+  font-size: 10px !important;
+  line-height: 12px !important;
+}
+[data-cognigy-webchat-root] #webchatChatHistoryWrapperLiveLogPanel p[class*="_text_"],
+[data-cognigy-webchat-root] #webchatChatHistoryWrapperLiveLogPanel [class*="_message_"] {
+  font-size: 14px !important;
+  line-height: 19.6px !important;
+}
+[data-cognigy-webchat-root] [class*="cognigy-webchat"] {
+  font-size: 14px !important;
+  line-height: 19.6px !important;
+}
+[data-cognigy-webchat-root] [class*="_title2-regular_"] {
+  font-size: 12px !important;
+  line-height: 16.8px !important;
+}
+[data-cognigy-webchat-root] [class*="_caption_"] {
+  font-size: 16px !important;
+}
+[data-cognigy-webchat-root] [class*="_h1-semibold_"] {
+  font-size: 34px !important;
+  line-height: 40.8px !important;
+}
+[data-cognigy-webchat-root] [class*="_h2-regular_"] {
+  font-size: 18px !important;
+  line-height: 23.4px !important;
+}
+[data-cognigy-webchat-root] [class*="_h2-semibold_"] {
+  font-size: 18px !important;
+  line-height: 23.4px !important;
+}
+[data-cognigy-webchat-root] [class*="_title1-regular_"] {
+  font-size: 16px !important;
+  line-height: 22.4px !important;
+}
+[data-cognigy-webchat-root] [class*="_title1-semibold_"] {
+  font-size: 16px !important;
+  line-height: 22.4px !important;
+}
+[data-cognigy-webchat-root] [class*="_title2-regular_"] {
+  font-size: 12px !important;
+  line-height: 16.8px !important;
+}
+[data-cognigy-webchat-root] [class*="_title2-semibold_"] {
+  font-size: 12px !important;
+  line-height: 15.6px !important;
+}
+[data-cognigy-webchat-root] [class*="_body-regular_"] {
+  font-size: 14px !important;
+  line-height: 19.6px !important;
+}
+[data-cognigy-webchat-root] [class*="_body-semibold_"] {
+  font-size: 14px !important;
+  line-height: 18.2px !important;
+}
+[data-cognigy-webchat-root] [class*="_copy-medium_"] {
+  font-size: 12px !important;
+  line-height: 16.8px !important;
+}
+[data-cognigy-webchat-root] [class*="_cta-semibold_"] {
+  font-size: 14px !important;
+  line-height: 18.2px !important;
+}
+[data-cognigy-webchat-root] [class*="_adaptivecard-wrapper_"] button {
+  font-size: 14px !important;
+  line-height: 160% !important;
+}
+[data-cognigy-webchat-root] [class*="_adaptivecard-wrapper_"] [class*="ac-textRun"] {
+  font-size: 12px !important;
+  line-height: 140% !important;
+}
+[data-cognigy-webchat-root] [class*="_adaptivecard-wrapper_"] input,
+[data-cognigy-webchat-root] [class*="_adaptivecard-wrapper_"] textarea,
+[data-cognigy-webchat-root] [class*="_adaptivecard-wrapper_"] select {
+  font-size: 14px !important;
+  line-height: 140%;
+}
+[data-cognigy-webchat-root] [class*="_message_"] {
+  font-size: 14px !important;
+  line-height: 1.4;
+}
+[data-cognigy-webchat-root] .webchat-prev-conversations-item {
+  height: 69px !important;
+}
+[data-cognigy-webchat-root] button.webchat-prev-conversations-send-button {
+  width: 303px;
+  height: 44px;
+}
+[data-cognigy-webchat-root] .webchat-prev-conversations-item > div:nth-child(2) {
+  width: 70%;
+}
