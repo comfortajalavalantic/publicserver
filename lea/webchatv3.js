@@ -2,9 +2,11 @@ const webchatController = {version:107}; //only relevant for the regex matching 
 // webchatController.cognigyEndpoint =
 //   "https://endpoint-app.cognigy.ds-prod.salzburg-ag.at/02e49902da2fbd856a37353a5904ed97b195f4200deff380bf7bf16f5c181823";
 webchatController.cognigyEndpoint =
-  "https://endpoint-app.cognigy.ds-prod.salzburg-ag.at/94d4eeaf672318ba7facf2de4bb4033653d2294cb8bc0e5cd7da6d31ff6a42b1";
+  "https://endpoint-app.cognigy.ds-prod.salzburg-ag.at/02e49902da2fbd856a37353a5904ed97b195f4200deff380bf7bf16f5c181823";
 webchatController.greeting = "Hallo ich bin LEA, kann ich dir helfen?"; // Automatically displayed engagement message
-//default cognigy expiration is 30 days --> https://github.com/Cognigy/Webchat/blob/82a51e6af8e477f8a2941cf0c751ae5dc9fb9f6d/src/webchat-ui/components/presentational/previous-conversations/helpers.ts
+
+
+//default cognigy expiration is 30 days --> https://github.com/Cognigy/Webchat/blob/82a51e6af8e477f8a2941cf0c751ae5dc9fb9f6d/src/webchat-ui/components/presentational/previous-conversations/helpers.ts
 webchatController.historyTimeframe = 1000 * 60 * 60 * 24; // Time in milliseconds, the session will be hold since conversation begin
 webchatController.engagementMessageDelay = 5000; // Waiting time to display the engagement message, since the webpage is loaded
 webchatController.engagementMessageDisabledTime = 20 * 60 * 1000; // Time between engagement messages (prevent spam) 20 minutes
