@@ -1,8 +1,8 @@
-const webchatController = {version:107}; //only relevant for the regex matching :D
+const webchatController = {version:112}; //only relevant for the regex matching :D
 // webchatController.cognigyEndpoint =
 //   "https://endpoint-app.cognigy.ds-prod.salzburg-ag.at/02e49902da2fbd856a37353a5904ed97b195f4200deff380bf7bf16f5c181823";
 webchatController.cognigyEndpoint =
-  "https://endpoint-app.cognigy.ds-prod.salzburg-ag.at/02e49902da2fbd856a37353a5904ed97b195f4200deff380bf7bf16f5c181823";
+  "https://endpoint-app.cognigy.ds-prod.salzburg-ag.at/6905510dbd225627ae5ce82c7448e5a62d3dbc29cc9de64e92c252802119e0e7";
 webchatController.greeting = "Hallo ich bin LEA, kann ich dir helfen?"; // Automatically displayed engagement message
 
 
@@ -16,6 +16,8 @@ webchatController.accepted_gdpr = false;
 webchatController.pluginUrls = [];
 webchatController.sessionIsValid = true;
 webchatController.buttonHandlers = [];
+webchatController.containerObserver = false;
+webchatController.typingIndicatorControl = false;
 webchatController.waitForElementToExist = (
   selectorQuery,
   payload,
@@ -349,8 +351,8 @@ webchatController.getMostRecentSession = () => {
 webchatController.setChatSession = () => {
   const { validAdminChat, validAdminSessionId } =
     webchatController.getMostRecentSession();
-    webchatController.logger("Below is the valid admin session id: ");
-    webchatController.logger(validAdminSessionId)
+  webchatController.logger("Below is the valid admin session id: ");
+  webchatController.logger(validAdminSessionId);
   if (!validAdminSessionId) {
     webchatController.webchatSession = {
       messages: [],
@@ -486,7 +488,6 @@ webchatController.init = (
         initWebchat(
           webchatController.cognigyEndpoint,
           {
- 
             sessionId: webchatController.webchatSession?.sessionId,
             settings: {
               teaserMessage: {
@@ -532,7 +533,47 @@ webchatController.init = (
                 webchatController.accepted_gdpr = true;
               }
             }
+            function controlTypingIndicator(event) {
+              const webchatChatHistory = document.getElementById(
+                "webchatChatHistoryWrapperLiveLogPanel",
+              );
+              if (event.payload?.data?.typingIndicator !== undefined) {
+                webchatController.typingIndicatorControl =
+                  event.payload?.data?.typingIndicator;
+              }
+              if (
+                webchatController.typingIndicator == false ||
+                (webchatController.typingIndicator == true &&
+                  webchatController.containerObserver) ||
+                !webchatChatHistory
+              )
+                return;
+              const observer = new MutationObserver(() => {
+                const typing = document.querySelector(
+                  ".webchat-typing-indicator[class*='_incoming']",
+                );
+                if (!typing) {
+                  webchatController.logger("Typing finished");
+                  observer.disconnect();
+                  if (webchatController.typingIndicatorControl) {
+                    const typingIndicator = document.querySelector(
+                      ".webchat-typing-indicator",
+                    );
+                    if (!typingIndicator.classList.contains("showtyping")) {
+                      typingIndicator.classList.add("showtyping");
+                    }
+                  }
+                  webchatController.containerObserver = false;
+                }
+              });
+
+              observer.observe(webchatChatHistory, {
+                childList: true,
+                subtree: true,
+              });
+            }
             webchat.registerAnalyticsService((event) => {
+              controlTypingIndicator(event);
               if (event.type === "webchat/switch-session") {
                 // update current session id
                 localStorage.setItem(
@@ -547,6 +588,7 @@ webchatController.init = (
                     (Date.now() +
                       webchatController.engagementMessageDisabledTime),
                 );
+
                 webchatController.waitForElementToExist(
                   "#webchatChatHistory .webchat-typing-indicator:not([class*='_incoming_'])",
                   null,
