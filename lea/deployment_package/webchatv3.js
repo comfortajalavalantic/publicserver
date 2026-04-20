@@ -1,4 +1,4 @@
-const webchatController = {version:112}; //only relevant for the regex matching :D
+const webchatController = {version:113}; //only relevant for the regex matching :D
 // webchatController.cognigyEndpoint =
 //   "https://endpoint-app.cognigy.ds-prod.salzburg-ag.at/02e49902da2fbd856a37353a5904ed97b195f4200deff380bf7bf16f5c181823";
 webchatController.cognigyEndpoint =
@@ -531,6 +531,20 @@ webchatController.init = (
                 webchatController.accepted_gdpr = true;
               }
             }
+            function hasButtonsOrMarkdownInPreviousArticle(elementEl) {
+              let prev = elementEl.previousElementSibling;
+
+              if (prev.tagName.toLowerCase() === "article") {
+                // check for any descendant with class containing "_buttons_" or "_markdown_"
+                return (
+                  prev.querySelector('[class*="_buttons_"]') ||
+                  prev.querySelector('[class*="_markdown_"]')
+                );
+              }
+
+              return false;
+            }
+
             function controlTypingIndicator(event) {
               const webchatChatHistory = document.getElementById(
                 "webchatChatHistoryWrapperLiveLogPanel",
@@ -615,11 +629,25 @@ webchatController.init = (
                             window.webchatChatHistory = webchatChatHistory;
                             window.lastElementWithHeader =
                               lastElementWithHeader;
+
+                            const hasButtonsOrMarkdown =
+                              hasButtonsOrMarkdownInPreviousArticle(
+                                lastUserMessage,
+                              );
+                            let lastButtonOrMarkdownChildEl;
+                            if (hasButtonsOrMarkdown) {
+                              lastButtonOrMarkdownChildEl =
+                                hasButtonsOrMarkdown.querySelector(
+                                  ":last-child",
+                                );
+                            }
+                            const offsetTop = lastUserMessage
+                              ? lastButtonOrMarkdownChildEl
+                                ? lastButtonOrMarkdownChildEl.offsetTop
+                                : lastUserMessage.previousSibling.offsetTop
+                              : lastElementWithHeader.previousSibling.offsetTop;
                             webchatChatHistory.parentElement.scrollTo({
-                              top: lastUserMessage
-                                ? lastUserMessage.previousSibling.offsetTop
-                                : lastElementWithHeader.previousSibling
-                                    .offsetTop,
+                              top: offsetTop,
                               behavior: "instant",
                             });
                           }

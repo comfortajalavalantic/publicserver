@@ -1,4 +1,4 @@
-const webchatController = {version:110}; //only relevant for the regex matching :D
+const webchatController = {version:113}; //only relevant for the regex matching :D
 webchatController.cognigyEndpoint =
   "https://endpoint-app.cognigy.ds-prod.salzburg-ag.at/a94b6087b534cb0d6f3d73d8ef17c501e2c58bee60c8728a8ef18c8a3a14556f";
 webchatController.greeting = "Hallo ich bin Smart Peter, kann ich dir helfen?"; // Automatically displayed engagement message//default cognigy expiration is 30 days --> https://github.com/Cognigy/Webchat/blob/82a51e6af8e477f8a2941cf0c751ae5dc9fb9f6d/src/webchat-ui/components/presentational/previous-conversations/helpers.ts
@@ -11,6 +11,8 @@ webchatController.accepted_gdpr = false;
 webchatController.pluginUrls = [];
 webchatController.sessionIsValid = true;
 webchatController.buttonHandlers = [];
+webchatController.containerObserver = false;
+webchatController.typingIndicatorControl = false;
 webchatController.waitForElementToExist = (
   selectorQuery,
   payload,
@@ -344,8 +346,8 @@ webchatController.getMostRecentSession = () => {
 webchatController.setChatSession = () => {
   const { validAdminChat, validAdminSessionId } =
     webchatController.getMostRecentSession();
-    webchatController.logger("Below is the valid admin session id: ");
-    webchatController.logger(validAdminSessionId)
+  webchatController.logger("Below is the valid admin session id: ");
+  webchatController.logger(validAdminSessionId);
   if (!validAdminSessionId) {
     webchatController.webchatSession = {
       messages: [],
@@ -481,7 +483,6 @@ webchatController.init = (
         initWebchat(
           webchatController.cognigyEndpoint,
           {
- 
             sessionId: webchatController.webchatSession?.sessionId,
             settings: {
               teaserMessage: {
@@ -527,7 +528,61 @@ webchatController.init = (
                 webchatController.accepted_gdpr = true;
               }
             }
+            function hasButtonsOrMarkdownInPreviousArticle(elementEl) {
+              let prev = elementEl.previousElementSibling;
+
+              if (prev.tagName.toLowerCase() === "article") {
+                // check for any descendant with class containing "_buttons_" or "_markdown_"
+                return (
+                  prev.querySelector('[class*="_buttons_"]') ||
+                  prev.querySelector('[class*="_markdown_"]')
+                );
+              }
+
+              return false;
+            }
+
+            function controlTypingIndicator(event) {
+              const webchatChatHistory = document.getElementById(
+                "webchatChatHistoryWrapperLiveLogPanel",
+              );
+              if (event.payload?.data?.typingIndicator !== undefined) {
+                webchatController.typingIndicatorControl =
+                  event.payload?.data?.typingIndicator;
+              }
+              if (
+                webchatController.typingIndicator == false ||
+                (webchatController.typingIndicator == true &&
+                  webchatController.containerObserver) ||
+                !webchatChatHistory
+              )
+                return;
+              const observer = new MutationObserver(() => {
+                const typing = document.querySelector(
+                  ".webchat-typing-indicator[class*='_incoming']",
+                );
+                if (!typing) {
+                  webchatController.logger("Typing finished");
+                  observer.disconnect();
+                  if (webchatController.typingIndicatorControl) {
+                    const typingIndicator = document.querySelector(
+                      ".webchat-typing-indicator",
+                    );
+                    if (!typingIndicator.classList.contains("showtyping")) {
+                      typingIndicator.classList.add("showtyping");
+                    }
+                  }
+                  webchatController.containerObserver = false;
+                }
+              });
+
+              observer.observe(webchatChatHistory, {
+                childList: true,
+                subtree: true,
+              });
+            }
             webchat.registerAnalyticsService((event) => {
+              controlTypingIndicator(event);
               if (event.type === "webchat/switch-session") {
                 // update current session id
                 localStorage.setItem(
@@ -542,6 +597,7 @@ webchatController.init = (
                     (Date.now() +
                       webchatController.engagementMessageDisabledTime),
                 );
+
                 webchatController.waitForElementToExist(
                   "#webchatChatHistory .webchat-typing-indicator:not([class*='_incoming_'])",
                   null,
@@ -570,11 +626,25 @@ webchatController.init = (
                             window.webchatChatHistory = webchatChatHistory;
                             window.lastElementWithHeader =
                               lastElementWithHeader;
+
+                            const hasButtonsOrMarkdown =
+                              hasButtonsOrMarkdownInPreviousArticle(
+                                lastUserMessage,
+                              );
+                            let lastButtonOrMarkdownChildEl;
+                            if (hasButtonsOrMarkdown) {
+                              lastButtonOrMarkdownChildEl =
+                                hasButtonsOrMarkdown.querySelector(
+                                  ":last-child",
+                                );
+                            }
+                            const offsetTop = lastUserMessage
+                              ? lastButtonOrMarkdownChildEl
+                                ? lastButtonOrMarkdownChildEl.offsetTop
+                                : lastUserMessage.previousSibling.offsetTop
+                              : lastElementWithHeader.previousSibling.offsetTop;
                             webchatChatHistory.parentElement.scrollTo({
-                              top: lastUserMessage
-                                ? lastUserMessage.previousSibling.offsetTop
-                                : lastElementWithHeader.previousSibling
-                                    .offsetTop,
+                              top: offsetTop,
                               behavior: "instant",
                             });
                           }
